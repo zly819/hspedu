@@ -1,8 +1,12 @@
 package com.hspedu.mhl.view;
 
+import com.hspedu.mhl.domain.DiningTable;
 import com.hspedu.mhl.domain.Employee;
+import com.hspedu.mhl.service.DiningTableService;
 import com.hspedu.mhl.service.EmployeeService;
 import com.hspedu.mhl.utils.Utility;
+
+import java.util.List;
 
 /**
  * @author 张立业
@@ -17,9 +21,21 @@ public class MHLView {
     private String key = "";
     //定义EmployeeService 属性
     private EmployeeService employeeService = new EmployeeService();
+    //定义一个DiningTable 属性
+    private DiningTableService diningTableService = new DiningTableService();
 
     public static void main(String[] args) {
         new MHLView().mainMenu();
+    }
+
+    //显示所有餐桌状态
+    public void listDiningTable(){
+        List<DiningTable> list = diningTableService.list();
+        System.out.println("\n餐桌编号\t\t餐桌状态");
+        for (DiningTable diningTable : list) {
+            System.out.println(diningTable);
+        }
+        System.out.println("===============显示完毕================");
     }
     //显示主菜单
     public void mainMenu() {
@@ -53,7 +69,7 @@ public class MHLView {
                             key = Utility.readString(1);
                             switch (key){
                                 case "1":
-                                    System.out.println("显示餐桌状态");
+                                    listDiningTable();//显示餐桌状态
                                     break;
                                 case "2":
                                     System.out.println("预定餐桌");
