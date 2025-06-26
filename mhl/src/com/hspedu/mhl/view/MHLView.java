@@ -2,8 +2,10 @@ package com.hspedu.mhl.view;
 
 import com.hspedu.mhl.domain.DiningTable;
 import com.hspedu.mhl.domain.Employee;
+import com.hspedu.mhl.domain.Menu;
 import com.hspedu.mhl.service.DiningTableService;
 import com.hspedu.mhl.service.EmployeeService;
+import com.hspedu.mhl.service.MenuService;
 import com.hspedu.mhl.utils.Utility;
 
 import java.util.List;
@@ -21,13 +23,24 @@ public class MHLView {
     private String key = "";
     //定义EmployeeService 属性
     private EmployeeService employeeService = new EmployeeService();
-    //定义一个DiningTable 属性
+    //定义一个DiningTableService 属性
     private DiningTableService diningTableService = new DiningTableService();
+    //定义MenuService属性
+    private MenuService menuService = new MenuService();
 
     public static void main(String[] args) {
         new MHLView().mainMenu();
     }
 
+    //显示所有菜品
+    public  void listMenu() {
+        List<Menu> list = menuService.list();
+        System.out.println("\n菜品编号\t\t菜品名\t\t类别\t\t价格");
+        for (Menu menu : list) {
+            System.out.println(menu);
+        }
+        System.out.println("==============显示完毕============");
+    }
     //完成订座
     public void orderDiningTable(){
         System.out.println("===============预定餐桌================");
@@ -117,7 +130,7 @@ public class MHLView {
                                     orderDiningTable();
                                     break;
                                 case "3":
-                                    System.out.println("显示所有菜品");
+                                    listMenu();
                                     break;
                                 case "4":
                                     System.out.println("点餐服务");
