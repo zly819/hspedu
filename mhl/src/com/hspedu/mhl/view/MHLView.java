@@ -1,5 +1,7 @@
 package com.hspedu.mhl.view;
 
+import com.hspedu.mhl.domain.Employee;
+import com.hspedu.mhl.service.EmployeeService;
 import com.hspedu.mhl.utils.Utility;
 
 /**
@@ -13,6 +15,8 @@ public class MHLView {
     private boolean loop = true;
     //接收用户的选择
     private String key = "";
+    //定义EmployeeService 属性
+    private EmployeeService employeeService = new EmployeeService();
 
     public static void main(String[] args) {
         new MHLView().mainMenu();
@@ -29,12 +33,12 @@ public class MHLView {
             switch (key){
                 case "1":
                     System.out.print("输入员工号: ");
-                    String id = Utility.readString(50);
+                    String empid = Utility.readString(50);
                     System.out.print("输入密 码: ");
                     String pwd = Utility.readString(50);
-                    //到数据库去判断[一会写]
-                    if ("123".equals(pwd)){
-                        System.out.println("===============登录成功================");
+                    Employee employee = employeeService.getEmployeeByIdAndPwd(empid, pwd);
+                    if (employee != null) {//说明存在该用户
+                        System.out.println("===============登录成功["+employee.getName()+"]================");
                         //显示二级菜单, 这里二级菜单是循环操作，所以做成while
                         while (loop) {
                             System.out.println("\n===============满汉楼(二级菜单)================");
