@@ -1,5 +1,6 @@
 package com.hspedu.mhl.domain;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -22,13 +23,13 @@ public class Bill {
     private Integer nums;
     private Double money;
     private Integer diningTableId;
-    private Date billDate;
+    private LocalDateTime billDate;
     private String state;
 
     public Bill() {
     }
 
-    public Bill(Integer id, String billId, Integer menuId, Integer nums, Double money, Integer diningTableId, Date billDate, String state) {
+    public Bill(Integer id, String billId, Integer menuId, Integer nums, Double money, Integer diningTableId, LocalDateTime billDate, String state) {
         this.id = id;
         this.billId = billId;
         this.menuId = menuId;
@@ -87,11 +88,11 @@ public class Bill {
         this.diningTableId = diningTableId;
     }
 
-    public Date getBillDate() {
+    public LocalDateTime getBillDate() {
         return billDate;
     }
 
-    public void setBillDate(Date billDate) {
+    public void setBillDate(LocalDateTime billDate) {
         this.billDate = billDate;
     }
 
@@ -101,5 +102,16 @@ public class Bill {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    @Override
+    public String toString() {
+        return  id +
+                "\t\t" + menuId +
+                "\t\t\t" + nums +
+                "\t\t\t" + money +
+                "\t" + diningTableId +
+                "\t\t" + billDate +
+                "\t\t\t" + state ;
     }
 }

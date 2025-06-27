@@ -1,5 +1,6 @@
 package com.hspedu.mhl.view;
 
+import com.hspedu.mhl.domain.Bill;
 import com.hspedu.mhl.domain.DiningTable;
 import com.hspedu.mhl.domain.Employee;
 import com.hspedu.mhl.domain.Menu;
@@ -33,6 +34,16 @@ public class MHLView {
 
     public static void main(String[] args) {
         new MHLView().mainMenu();
+    }
+
+    //显示账单信息
+    public void listBill() {
+        List<Bill> Bills = billService.list();
+        System.out.println("\n编号\t\t菜品号\t\t菜品量\t\t金额\t\t桌号\t\t日期\t\t\t\t\t\t\t状态\t\t菜品名\t\t价格");
+        for (Bill bill : Bills) {
+            System.out.println(bill);
+        }
+        System.out.println("==============显示完毕============");
     }
 
     //完成点餐
@@ -181,7 +192,7 @@ public class MHLView {
                                     orderMenu();
                                     break;
                                 case "5":
-                                    System.out.println("查看账单");
+                                    listBill();//显示所有的账单
                                     break;
                                 case "6":
                                     System.out.println("结账");
