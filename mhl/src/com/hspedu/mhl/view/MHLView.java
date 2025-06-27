@@ -36,6 +36,47 @@ public class MHLView {
         new MHLView().mainMenu();
     }
 
+    //完成结账
+    public void payBill() {
+        System.out.println("==============结账服务============");
+        System.out.print("请选择要结账的餐桌编号(-1退出): ");
+        int diningTableId = Utility.readInt();
+        if (diningTableId == -1) {
+            System.out.println("=============取消结账============");
+            return;
+        }
+        //验证餐桌是否存在
+        DiningTable diningTable = diningTableService.getDiningTableById(diningTableId);
+        if (diningTable == null) {
+            System.out.println("=============结账的餐桌不存在============");
+            return;
+        }
+        //验证餐桌是否有需要结账的账单
+        if (!billService.hasPayBillByDiningTableId(diningTableId)) {
+            System.out.println("=============该餐位没有未结账账单============");
+            return;
+        }
+        System.out.print("结账方式(现金/支付宝/微信)回车表示退出: ");
+        String payMode = Utility.readString(20, "");//说明如果回车，就是返回 ""
+        if ("".equals(payMode)) {
+            System.out.println("=============取消结账============");
+            return;
+        }
+        char key = Utility.readConfirmSelection();
+        if (key == 'Y') {//结账
+
+            //调用方法
+            if (billService.payBill(diningTableId, payMode)){
+                System.out.println("=============完成结账============");
+            }else {
+                System.out.println("=============结账失败============");
+            }
+
+        }else {
+            System.out.println("=============取消结账============");
+        }
+    }
+
     //显示账单信息
     public void listBill() {
         List<Bill> Bills = billService.list();
@@ -195,7 +236,7 @@ public class MHLView {
                                     listBill();//显示所有的账单
                                     break;
                                 case "6":
-                                    System.out.println("结账");
+                                    payBill();
                                     break;
                                 case "9":
                                     loop = false;
