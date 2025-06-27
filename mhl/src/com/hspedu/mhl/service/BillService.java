@@ -2,7 +2,9 @@ package com.hspedu.mhl.service;
 
 import com.hspedu.mhl.dao.BasicDAO;
 import com.hspedu.mhl.dao.BillDAO;
+import com.hspedu.mhl.dao.MultiTableDAO;
 import com.hspedu.mhl.domain.Bill;
+import com.hspedu.mhl.domain.MultiTableBean;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,6 +21,8 @@ public class BillService {
     private MenuService menuService = new MenuService();
     //定义DiningTableService属性
     private DiningTableService diningTableService = new DiningTableService();
+
+    private MultiTableDAO multiTableDAO = new MultiTableDAO();
     //思考
     //编写点餐的方法
     //1. 生成账单
@@ -43,6 +47,12 @@ public class BillService {
     //返回所有的账单，提供给View调用
     public List<Bill> list(){
         return billDAO.queryMulti("select * from bill",Bill.class);
+    }
+    //返回所有的账单并带有菜品名,价格， 提供给View调用
+    public List<MultiTableBean> list2() {
+        return multiTableDAO.queryMulti("SELECT bill.*, NAME, price " +
+                "FROM bill, menu " +
+                "WHERE bill.menuId = menu.id", MultiTableBean.class);
     }
 
     //查看某个餐桌是否有未结账的账单
