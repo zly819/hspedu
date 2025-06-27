@@ -19,4 +19,8 @@ public class MenuService {
     public List<Menu> list() {
         return menuDAO.queryMulti("select * from menu",Menu.class);
     }
+    //需要方法，根据id, 返回Menu对象
+    public Menu getMenuById(int id) {
+        return menuDAO.querySingle("select * from menu where id = ?",Menu.class,id);
+    }
 }
