@@ -3,6 +3,7 @@ package com.hspedu.mhl.view;
 import com.hspedu.mhl.domain.DiningTable;
 import com.hspedu.mhl.domain.Employee;
 import com.hspedu.mhl.domain.Menu;
+import com.hspedu.mhl.service.BillService;
 import com.hspedu.mhl.service.DiningTableService;
 import com.hspedu.mhl.service.EmployeeService;
 import com.hspedu.mhl.service.MenuService;
@@ -27,9 +28,53 @@ public class MHLView {
     private DiningTableService diningTableService = new DiningTableService();
     //定义MenuService属性
     private MenuService menuService = new MenuService();
+    //定义BillService属性
+    private BillService billService = new BillService();
 
     public static void main(String[] args) {
         new MHLView().mainMenu();
+    }
+
+    //完成点餐
+    public void orderMenu() {
+        System.out.println("==============点餐服务============");
+        System.out.print("请输入点餐的桌号(-1退出): ");
+        int orderDiningTableId = Utility.readInt();
+        if (orderDiningTableId == -1) {
+            System.out.println("==============取消点餐============");
+            return;
+        }
+        System.out.print("请输入点餐的菜品号(-1退出): ");
+        int orderMenuId = Utility.readInt();
+        if (orderMenuId == -1) {
+            System.out.println("==============取消点餐============");
+            return;
+        }
+        System.out.print("请输入点餐的菜品量(-1退出): ");
+        int orderNums = Utility.readInt();
+        if (orderNums == -1) {
+            System.out.println("==============取消点餐============");
+            return;
+        }
+        //验证餐桌号是否存在.
+        DiningTable diningTable = diningTableService.getDiningTableById(orderDiningTableId);
+        if (diningTable == null) {
+            System.out.println("==============餐桌号不存在============");
+            return;
+        }
+        //验证菜品编号
+        Menu menu = menuService.getMenuById(orderMenuId);
+        if (menu == null) {
+            System.out.println("==============菜品号不存在============");
+            return;
+        }
+        //点餐
+        if (billService.orderMenu(orderMenuId,orderNums,orderDiningTableId)){
+            System.out.println("==============点餐成功============");
+        }else {
+            System.out.println("==============点餐失败============");
+        }
+
     }
 
     //显示所有菜品
@@ -133,7 +178,7 @@ public class MHLView {
                                     listMenu();
                                     break;
                                 case "4":
-                                    System.out.println("点餐服务");
+                                    orderMenu();
                                     break;
                                 case "5":
                                     System.out.println("查看账单");
