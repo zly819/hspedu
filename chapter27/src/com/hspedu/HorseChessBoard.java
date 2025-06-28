@@ -2,6 +2,7 @@ package com.hspedu;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * @author 张立业
@@ -18,8 +19,8 @@ public class HorseChessBoard {
 
     public static void main(String[] args) {
 
-        int row = 6;
-        int col = 6;
+        int row = 2;
+        int col = 2;
 
         //测试一把
         long start = System.currentTimeMillis();
@@ -36,6 +37,16 @@ public class HorseChessBoard {
         }
     }
 
+    //写一个方法，对ps的各个位置，可以走的下一个位置的次数进行排序, 把可能走的下一个位置从小到大排序
+    public static void sort(ArrayList<Point> ps) {
+        ps.sort(new Comparator<Point>() {
+            @Override
+            public int compare(Point o1, Point o2) {
+                return next(o1).size() - next(o2).size();
+            }
+        });
+    }
+
     //编写最核心的算法，遍历棋盘，如果遍历成功，就把 finished 设置为true ,
     //并且，将马儿走的每一步step，记录到 chessBoard
     public static void traversalChessBoard(int[][] chessBoard, int row, int col, int step) {
@@ -46,6 +57,7 @@ public class HorseChessBoard {
         visited[row * X + col] = true;
         //获取当前这个位置可以走的下一个位置有哪些
         ArrayList<Point> ps = next(new Point(col, row));// col - X , row - Y
+        sort(ps);//排序.
         //遍历
         while (!ps.isEmpty()) {
             //取出当前这个ps 第一个位置(点)
